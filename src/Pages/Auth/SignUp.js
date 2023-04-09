@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { TextField, Button, Paper, Typography, Container, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ function Signup() {
 
     try {
       await Auth.signUp({ username: email, password });
-      // Redirect to a confirmation page or send a confirmation email
+      navigate('/verify');
     } catch (err) {
       setError(err.message);
     }
