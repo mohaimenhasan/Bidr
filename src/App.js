@@ -5,6 +5,9 @@ import Login from './Pages/Auth/Login';
 import Signup from './Pages/Auth/SignUp';
 import Verify from './Pages/Auth/Verify';
 import ResetPassword from './Pages/Auth/ResetPassword';
+import PrivateRoute from './Components/PrivateRoute';
+import Dashboard from './Pages/Dashboard';
+import './App.css';
 
 function App() {
   return (
@@ -15,6 +18,9 @@ function App() {
         <Route path="/signup" Component={Signup} />
         <Route path="/verify" Component={Verify} />
         <Route path='/resetpassword' Component={ResetPassword} />
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="/dashboard" Component={Dashboard}/>
+        </Route>
       </Routes>
     </Router>
   );

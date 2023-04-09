@@ -26,14 +26,26 @@ function Signup() {
     }
   };
 
+  const handleGoBack = () => {
+    navigate('/');
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+  }
+
   return (
     <>
     <Container sx={{ height: '100vh', display: 'flex', alignItems: 'center' }} maxWidth="xs">
       <Box sx={{ mx: 'auto' }}>
         <Paper elevation={3} sx={{ padding: 2 }}>
-          <Typography variant="h5" align="center">
-            Sign up for Bidr
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Button onClick={handleGoBack} sx={{ marginBottom: 4 }}>Go Back</Button>
+            <Typography variant="h5" align="center" sx={{ marginTop: 2 }}>
+              Sign up for Bidr
+            </Typography>
+            <div style={{ width: '100px' }}></div>
+          </Box>
           <Box component="form" onSubmit={handleSignup} sx={{ marginTop: 2 }}>
             <TextField
               fullWidth
@@ -75,6 +87,11 @@ function Signup() {
             >
               Sign Up
             </Button>
+            <Box sx={{ marginTop: 2 }}>
+              <Typography variant="body2" align="center">
+                Already a user? <Button variant="text" onClick={handleLogin}>Log in here</Button>
+              </Typography>
+            </Box>
           </Box>
         </Paper>
       </Box>
