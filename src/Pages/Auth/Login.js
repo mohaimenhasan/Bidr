@@ -13,8 +13,10 @@ function Login() {
     e.preventDefault();
 
     try {
-      await Auth.signIn(email, password);
-      navigate('/');
+      const user = await Auth.signIn(email, password);
+      if (user !== null){
+        navigate('/dashboard');
+      }
     } 
     catch (err) {
       if (err.code === 'UserNotConfirmedException') {
@@ -37,11 +39,20 @@ function Login() {
     }
   };
 
+  const handleSignUp = () => {
+    navigate('/signup');
+  };
+
+  const handleGoBack = () => {
+    navigate('/');
+  };
+
   return (
     <>
     <Container sx={{ height: '100vh', display: 'flex', alignItems: 'center' }} maxWidth="xs">
       <Box sx={{ mx: 'auto' }}>
         <Paper elevation={3} sx={{ padding: 2 }}>
+          <Button onClick={handleGoBack} sx={{ marginBottom: 2 }}>Go Back</Button>
           <Typography variant="h5" align="center">
             Login to Bidr
           </Typography>
@@ -81,6 +92,12 @@ function Login() {
               <Typography variant="body2" align="center">
                 <Link href="#" onClick={handleForgotPassword}>
                   Forgot Password?
+                </Link>
+              </Typography>
+              <Typography variant="body2" align="center" sx={{ marginTop: 1 }}>
+                New to Bidr? 
+                <Link href="#" onClick={handleSignUp} sx={{ marginLeft: 1 }}>
+                  Sign up
                 </Link>
               </Typography>
             </Box>

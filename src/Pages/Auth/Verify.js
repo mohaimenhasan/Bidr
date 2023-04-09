@@ -36,15 +36,31 @@ function Verify() {
     }
   };
 
+  const handleGoBack = () => {
+    navigate('/');
+  };
+
   return (
     <>
     <Container sx={{ height: '100vh', display: 'flex', alignItems: 'center' }} maxWidth="xs">
       <Box sx={{ mx: 'auto' }}>
         <Paper elevation={3} sx={{ padding: 2 }}>
-          <Typography variant="h5" align="center">
-            Verify Your Email
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Button onClick={handleGoBack} sx={{ marginBottom: 2 }}>Go Back</Button>
+            <Typography variant="h5" align="center">
+              Verify Your Email
+            </Typography>
+            <div style={{ width: '100px' }}></div>
+          </Box>
           <Box component="form" onSubmit={handleVerification} sx={{ marginTop: 2 }}>
+            <TextField
+                fullWidth
+                margin="normal"
+                label="Email"
+                variant="outlined"
+                disabled
+                value={email}
+              />
             <TextField
               fullWidth
               margin="normal"
@@ -84,5 +100,6 @@ function Verify() {
     </>
   );
 }
+
 
 export default Verify;

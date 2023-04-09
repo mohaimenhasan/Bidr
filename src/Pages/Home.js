@@ -31,7 +31,7 @@ function Home() {
         }}
       >
         <animated.h2 style={spring} sx={{ mb: 4 }}>
-          <img src={logo} alt="Bidr logo" style={{ height: '10rem', maxWidth: '100%' }} />
+          <img src={logo} alt="Bidr logo" style={{ height: '10rem', maxWidth: '100%', marginTop: '16px' }} />
         </animated.h2>
         <Typography variant="h2" sx={{ mb: 4, textAlign: 'center' }}>
           Get the best rental deal with Bidr!
