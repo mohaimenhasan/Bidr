@@ -27,55 +27,57 @@ function ResetPassword() {
   };
 
   return (
-    <Container maxWidth="xs">
-      <Box sx={{ marginTop: 8 }}>
-        <Paper elevation={3} sx={{ padding: 2 }}>
-          <Typography variant="h5" align="center">
-            Reset Password
-          </Typography>
-          {success ? (
-            <Typography variant="body1" align="center">
-              Your password has been successfully reset. Please <a href="/login">login</a> with your new password.
+    <>
+      <Container maxWidth="xs" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 10rem)' }}>
+        <Box sx={{ marginTop: 8 }}>
+          <Paper elevation={3} sx={{ padding: 2 }}>
+            <Typography variant="h5" align="center">
+              Reset Password
             </Typography>
-          ) : (
-            <Box component="form" onSubmit={handleResetPassword} sx={{ marginTop: 2 }}>
-              <TextField
-                fullWidth
-                margin="normal"
-                label="New Password"
-                variant="outlined"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Confirm New Password"
-                variant="outlined"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {error && (
-                <Typography variant="body2" color="error" align="center">
-                  {error}
-                </Typography>
-              )}
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ marginTop: 2 }}
-              >
-                Reset Password
-              </Button>
-            </Box>
-          )}
-        </Paper>
-      </Box>
-    </Container>
+            {success ? (
+              <Typography variant="body1" align="center">
+                Your password has been successfully reset. Please <a href="/login">login</a> with your new password.
+              </Typography>
+            ) : (
+              <Box component="form" onSubmit={handleResetPassword} sx={{ marginTop: 2 }}>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="New Password"
+                  variant="outlined"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Confirm New Password"
+                  variant="outlined"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                {error && (
+                  <Typography variant="body2" color="error" align="center">
+                    {error}
+                  </Typography>
+                )}
+                <Button
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  sx={{ marginTop: 2 }}
+                >
+                  Reset Password
+                </Button>
+              </Box>
+            )}
+          </Paper>
+        </Box>
+      </Container>
+    </>
   );
 }
 
