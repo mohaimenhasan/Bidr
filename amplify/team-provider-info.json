@@ -10,6 +10,11 @@
       "StackName": "amplify-bidr-staging-60551",
       "StackId": "arn:aws:cloudformation:us-west-2:032629023661:stack/amplify-bidr-staging-60551/951ab0b0-d69c-11ed-b64e-0605ca103347",
       "AmplifyAppId": "d24apof8hqodo6"
+    },
+    "categories": {
+      "auth": {
+        "bidr1e1492d7": {}
+      }
     }
   }
 }
