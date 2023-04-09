@@ -10,7 +10,9 @@ function Verify() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const email = state && state.email; // Get the email passed from login.js
-
+  if (!email){
+    navigate('/login');
+  }
   const handleVerification = async (e) => {
     e.preventDefault();
 
@@ -35,8 +37,9 @@ function Verify() {
   };
 
   return (
-    <Container maxWidth="xs">
-      <Box sx={{ marginTop: 8 }}>
+    <>
+    <Container sx={{ height: '100vh', display: 'flex', alignItems: 'center' }} maxWidth="xs">
+      <Box sx={{ mx: 'auto' }}>
         <Paper elevation={3} sx={{ padding: 2 }}>
           <Typography variant="h5" align="center">
             Verify Your Email
@@ -78,6 +81,7 @@ function Verify() {
         </Paper>
       </Box>
     </Container>
+    </>
   );
 }
 
