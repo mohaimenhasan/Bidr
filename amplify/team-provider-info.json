@@ -16,5 +16,23 @@
         "bidr1e1492d7": {}
       }
     }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bidr-dev-43137-authRole",
+      "UnauthRoleArn": "arn:aws:iam::032629023661:role/amplify-bidr-dev-43137-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::032629023661:role/amplify-bidr-dev-43137-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-bidr-dev-43137-deployment",
+      "UnauthRoleName": "amplify-bidr-dev-43137-unauthRole",
+      "StackName": "amplify-bidr-dev-43137",
+      "StackId": "arn:aws:cloudformation:us-west-2:032629023661:stack/amplify-bidr-dev-43137/f1fe0ca0-d6b0-11ed-9a05-0a3de7f999e7",
+      "AmplifyAppId": "d1f4wa1vui5c2s"
+    },
+    "categories": {
+      "auth": {
+        "bidr1e1492d7": {}
+      }
+    }
   }
 }
