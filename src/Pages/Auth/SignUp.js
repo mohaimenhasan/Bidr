@@ -8,6 +8,8 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
@@ -19,7 +21,15 @@ function Signup() {
     }
 
     try {
-      await Auth.signUp({ username: email, password });
+      await Auth.signUp({
+        username: email,
+        password,
+        attributes: {
+          given_name: firstName,
+          family_name: lastName,
+          preferred_username: ''
+        }
+      });
       navigate('/verify');
     } catch (err) {
       setError(err.message);
@@ -47,6 +57,22 @@ function Signup() {
             <div style={{ width: '100px' }}></div>
           </Box>
           <Box component="form" onSubmit={handleSignup} sx={{ marginTop: 2 }}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="First Name"
+              variant="outlined"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Last Name"
+              variant="outlined"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
             <TextField
               fullWidth
               margin="normal"
