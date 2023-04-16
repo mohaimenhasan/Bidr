@@ -11,18 +11,18 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" exact Component={Home} />
-        <Route path="/login" Component={Login} />
-        <Route path="/signup" Component={Signup} />
-        <Route path="/verify" Component={Verify} />
-        <Route path='/resetpassword' Component={ResetPassword} />
-        <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route path="/dashboard" Component={Dashboard}/>
-        </Route>
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" exact Component={Home} />
+          <Route path="/login" Component={Login} />
+          <Route path="/signup" Component={Signup} />
+          <Route path="/verify" Component={Verify} />
+          <Route path='/resetpassword' Component={ResetPassword} />
+          <Route path="/dashboard" element={<PrivateRoute />}>
+            <Route path="/dashboard" Component={Dashboard}/>
+          </Route>
+        </Routes>
+      </Router>
   );
 }
 

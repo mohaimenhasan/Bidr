@@ -1,0 +1,27 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Favorite @model {
+  id: ID! @primaryKey
+  listingId: String!
+  user: User @belongsTo(fields: ["userId"])
+  userId: ID! @index(name: "byUser")
+}
+
+type Bid @model {
+  id: ID! @primaryKey
+  property: String!
+  biddingPrice: Float!
+  endDate: AWSDateTime!
+  user: User @belongsTo(fields: ["userId"])
+  userId: ID! @index(name: "byUser")
+}
+
+type User @model {
+  id: ID! @primaryKey
+  name: String!
+  email: String!
+  bids: [Bid] @hasMany(indexName: "byUser", fields: ["id"])
+  favorites: [Favorite] @hasMany(indexName: "byUser", fields: ["id"])
+}

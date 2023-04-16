@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles'; // import useTheme
 import logo from '../logobidr.svg';
 import { Auth } from 'aws-amplify';
 
@@ -9,7 +10,8 @@ function Navbar() {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const theme = useTheme();
+  
   useEffect(() => {
     checkAuthStatus();
   }, []);
@@ -69,7 +71,7 @@ function Navbar() {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="relative" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <img src={logo} alt="Bidr logo" style={{ height: '2rem', maxWidth: '100%', marginRight: '0.5rem', cursor: 'pointer' }} onClick={handleLogoClick} />
         <Typography variant="h6" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={handleLogoClick}>
@@ -78,7 +80,17 @@ function Navbar() {
         {authenticated ? (
           <>
             <IconButton color="inherit" onClick={handleMenuOpen}>
-              <Typography variant="subtitle1" sx={{ textTransform: 'none', marginRight: '0.5rem' }}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  textTransform: 'none',
+                  marginLeft: '0.5rem',
+                  marginRight: '0.5rem',
+                  '&:hover': {
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
                 {user !== null ? user.attributes.given_name : null}
               </Typography>
               <i className="fas fa-caret-down"></i>
