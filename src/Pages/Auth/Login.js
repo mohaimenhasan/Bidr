@@ -48,7 +48,6 @@ function Login() {
   };
 
   return (
-    <>
     <Container sx={{ height: '100vh', display: 'flex', alignItems: 'center' }} maxWidth="xs">
       <Box sx={{ mx: 'auto' }}>
         <Paper elevation={3} sx={{ padding: 2 }}>
@@ -105,7 +104,6 @@ function Login() {
         </Paper>
       </Box>
     </Container>
-    </>
   );
 }
 
