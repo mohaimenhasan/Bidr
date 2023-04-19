@@ -1,181 +1,185 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  CircularProgress,
-  Drawer,
-  Toolbar,
-  ListItemIcon,
-  ListItemButton
-} from '@mui/material';
-import Navbar from '../Components/Navbar';
-import { API, Auth } from 'aws-amplify';
-import { styled } from '@mui/material/styles';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import HistoryIcon from '@mui/icons-material/History';
+  import React, { useState, useEffect } from 'react';
+  import {
+    Box,
+    Typography,
+    List,
+    ListItem,
+    ListItemText,
+    CircularProgress,
+    Drawer,
+    Toolbar,
+    ListItemIcon,
+    ListItemButton
+  } from '@mui/material';
+  import { useMediaQuery } from '@mui/material';
+  import Navbar from '../Components/Navbar';
+  import { API, Auth } from 'aws-amplify';
+  import { styled, useTheme } from '@mui/material/styles';
+  import FavoriteIcon from '@mui/icons-material/Favorite';
+  import HistoryIcon from '@mui/icons-material/History';
 
-const drawerWidth = 240;
+  const drawerWidth = 240;
 
-const DashboardRoot = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  minHeight: '100vh',
-}));
+  const DashboardRoot = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.background.default,
+    minHeight: '100vh',
+  }));
 
-const ListContainer = styled(Box)(({ theme }) => ({
-  maxWidth: '600px',
-  width: '100%',
-  bgcolor: theme.palette.background.paper,
-}));
+  const ListContainer = styled(Box)(({ theme }) => ({
+    maxWidth: '600px',
+    width: '100%',
+    bgcolor: theme.palette.background.paper,
+  }));
 
-const ErrorText = styled(Typography)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-  color: theme.palette.error.main,
-}));
+  const ErrorText = styled(Typography)(({ theme }) => ({
+    marginBottom: theme.spacing(2),
+    color: theme.palette.error.main,
+  }));
 
-function FavoriteList({ favorites }) {
-  return (
-    <ListContainer>
-      <List>
-        {favorites.map((favorite) => (
-          <ListItem key={favorite.id} alignItems="flex-start">
-            <ListItemText primary={favorite.listingId} secondary="Listing ID" />
-          </ListItem>
-        ))}
-      </List>
-    </ListContainer>
-  );
-}
+  function FavoriteList({ favorites }) {
+    return (
+      <ListContainer>
+        <List>
+          {favorites.map((favorite) => (
+            <ListItem key={favorite.id} alignItems="flex-start">
+              <ListItemText primary={favorite.listingId} secondary="Listing ID" />
+            </ListItem>
+          ))}
+        </List>
+      </ListContainer>
+    );
+  }
 
-function BidHistoryList({ bids }) {
-  return (
-    <ListContainer>
-      <List>
-        {bids.map((bid) => (
-          <ListItem key={bid.id} alignItems="flex-start">
-            <ListItemText
-              primary={`${bid.property} - $${bid.biddingPrice}`}
-              secondary={`Ends on ${new Date(bid.endDate).toLocaleDateString()}`}
-            />
-          </ListItem>
-        ))}
-      </List>
-    </ListContainer>
-  );
-}
+  function BidHistoryList({ bids }) {
+    return (
+      <ListContainer>
+        <List>
+          {bids.map((bid) => (
+            <ListItem key={bid.id} alignItems="flex-start">
+              <ListItemText
+                primary={`${bid.property} - $${bid.biddingPrice}`}
+                secondary={`Ends on ${new Date(bid.endDate).toLocaleDateString()}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </ListContainer>
+    );
+  }
 
-function Dashboard() {
-  const [userFavorites, setUserFavorites] = useState([]);
-  const [favoritesCount, setFavoritesCount] = useState(0);
-  const [userBids, setUserBids] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  function Dashboard() {
+    const [userFavorites, setUserFavorites] = useState([]);
+    const [favoritesCount, setFavoritesCount] = useState(0);
+    const [userBids, setUserBids] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
-  useEffect(() => {
-    getUserFavorites();
-    getUserBids();
-  }, []);
+    useEffect(() => {
+      getUserFavorites();
+      getUserBids();
+    }, []);
 
-  async function getUserFavorites() {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      const userId = user.username;
+    async function getUserFavorites() {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        const userId = user.username;
 
-      const listFavoritesResponse = await API.graphql({
-        query: `
-          query ListFavorites($filter: ModelFavoriteFilterInput) {
-            listFavorites(filter: $filter) {
-              items {
-                id
-                listingId
-                userId
+        const listFavoritesResponse = await API.graphql({
+          query: `
+            query ListFavorites($filter: ModelFavoriteFilterInput) {
+              listFavorites(filter: $filter) {
+                items {
+                  id
+                  listingId
+                  userId
+                }
+              }
+            }
+          `,
+          variables: {
+            filter: {
+              userId: {
+                eq: userId
               }
             }
           }
-        `,
-        variables: {
-          filter: {
-            userId: {
-              eq: userId
-            }
-          }
-        }
-      });
+        });
 
-      const { items: favorites } = listFavoritesResponse.data.listFavorites;
-      setUserFavorites(favorites);
-      setFavoritesCount(favorites.length);
-    } catch (error) {
-      console.log('Error retrieving user favorites:', error);
-      setError('Error retrieving user favorites.');
-    } finally {
-      setIsLoading(false);
+        const { items: favorites } = listFavoritesResponse.data.listFavorites;
+        setUserFavorites(favorites);
+        setFavoritesCount(favorites.length);
+      } catch (error) {
+        console.log('Error retrieving user favorites:', error);
+        setError('Error retrieving user favorites.');
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
 
-  async function getUserBids() {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      const userId = user.username;
-  
-      const listBidsResponse = await API.graphql({
-        query: `
-          query ListBids($filter: ModelBidFilterInput) {
-            listBids(filter: $filter) {
-              items {
-                id
-                property
-                biddingPrice
-                endDate
-                userId
+    async function getUserBids() {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        const userId = user.username;
+        const listBidsResponse = await API.graphql({
+          query: `
+            query ListBids($filter: ModelBidFilterInput) {
+              listBids(filter: $filter) {
+                items {
+                  id
+                  property
+                  biddingPrice
+                  endDate
+                  userId
+                }
+              }
+            }
+          `,
+          variables: {
+            filter: {
+              userId: {
+                eq: userId
               }
             }
           }
-        `,
-        variables: {
-          filter: {
-            userId: {
-              eq: userId
-            }
-          }
-        }
-      });
-  
-      const { items: bids } = listBidsResponse.data.listBids;
-      setUserBids(bids);
-    } catch (error) {
-      console.log('Error retrieving user bids:', error);
-      setError('Error retrieving user bids.');
-    } finally {
-      setIsLoading(false);
+        });
+      
+        const { items: bids } = listBidsResponse.data.listBids;
+        setUserBids(bids);
+      } catch (error) {
+        console.log('Error retrieving user bids:', error);
+        setError('Error retrieving user bids.');
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
-  
-  const handleListItemClick = (index) => {
-    setSelectedIndex(index);
-  };
-  
-  return (
-    <DashboardRoot>
-        <Navbar />      
+
+    const handleListItemClick = (index) => {
+      setSelectedIndex(index);
+    };
+    
+    // Use the useTheme and useMediaQuery hooks to determine the screen size
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    
+    return (
+      <DashboardRoot>
+        <Navbar />
         <Box>
           <Drawer
             sx={{
               '& .MuiDrawer-paper': {
-                width: drawerWidth,
+                width: isSmallScreen ? '55px' : drawerWidth, // Adjust the width for small screens
               },
             }}
-            variant="permanent"
+            variant={'permanent'} // Change the variant for small screens
             anchor="left"
           >
-            <Toolbar sx={{marginTop: '10px',}}/>
+            <Toolbar sx={{ marginTop: '10px' }} />
             <Box sx={{ overflow: 'auto' }}>
               <List>
                 {['Favorites', 'Bid History'].map((text, index) => (
@@ -187,7 +191,7 @@ function Dashboard() {
                     <ListItemIcon>
                       {index === 0 ? <FavoriteIcon /> : <HistoryIcon />}
                     </ListItemIcon>
-                    <ListItemText primary={text} />
+                    {isSmallScreen ? <></> : <ListItemText primary={text} /> }
                   </ListItemButton>
                 ))}
               </List>
@@ -252,11 +256,9 @@ function Dashboard() {
               </Box>
             )}
           </Box>
-      </Box>
-    </DashboardRoot>
-  );
+        </Box>
+      </DashboardRoot>
+    );
+  }
 
-}
-
-
-export default Dashboard;
+  export default Dashboard;
