@@ -35,5 +35,23 @@
         "Bidrdev": {}
       }
     }
+  },
+  "bidrdev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bidr-bidrdev-183232-authRole",
+      "UnauthRoleArn": "arn:aws:iam::032629023661:role/amplify-bidr-bidrdev-183232-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::032629023661:role/amplify-bidr-bidrdev-183232-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-bidr-bidrdev-183232-deployment",
+      "UnauthRoleName": "amplify-bidr-bidrdev-183232-unauthRole",
+      "StackName": "amplify-bidr-bidrdev-183232",
+      "StackId": "arn:aws:cloudformation:us-west-2:032629023661:stack/amplify-bidr-bidrdev-183232/e372c180-e880-11ed-9772-0a5a8477256b",
+      "AmplifyAppId": "dgerr80mi2f5u"
+    },
+    "categories": {
+      "auth": {
+        "Bidrdev": {}
+      }
+    }
   }
 }
